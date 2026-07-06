@@ -150,8 +150,12 @@ header[data-testid="stHeader"] [data-testid="stToolbar"] { pointer-events:auto; 
 .ds-nav-name { font-weight:800; font-size:1.1rem; letter-spacing:-0.5px; white-space:nowrap;
     background:linear-gradient(120deg,#0D9488 0%,#0EA5E9 60%,#6366F1 100%);
     -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent; }
-.st-key-ds-topnav [data-testid="stHorizontalBlock"] { flex-wrap:nowrap; overflow-x:auto; align-items:center; gap:2px; }
-.st-key-ds-topnav [data-testid="stHorizontalBlock"]::-webkit-scrollbar { height:0; }
+/* Tab bar: content-width tabs, centered, horizontal scroll when they overflow */
+.st-key-ds-topnav [data-testid="stHorizontalBlock"] { flex-wrap:nowrap; overflow-x:auto; overflow-y:hidden;
+    align-items:center; justify-content:center; gap:4px; }
+.st-key-ds-topnav [data-testid="stColumn"] { flex:0 0 auto !important; width:auto !important; min-width:0 !important; }
+.st-key-ds-topnav [data-testid="stHorizontalBlock"]::-webkit-scrollbar { height:6px; }
+.st-key-ds-topnav [data-testid="stHorizontalBlock"]::-webkit-scrollbar-thumb { background:#CBD5E1; border-radius:6px; }
 [data-testid="stPageLink"] a { border-radius:11px; padding:7px 7px !important; font-weight:600 !important;
     font-size:0.86rem !important; color:var(--body) !important; white-space:nowrap; transition:background .15s,color .15s; }
 [data-testid="stPageLink"] a:hover { background:#F1FBF9 !important; color:var(--teal-deep) !important; }
@@ -160,9 +164,9 @@ header[data-testid="stHeader"] [data-testid="stToolbar"] { pointer-events:auto; 
 
 /* Top bar: breadcrumb (left) · brand (center) · menu (right) */
 .st-key-ds-topbar [data-testid="stHorizontalBlock"] { flex-wrap:nowrap; align-items:center; gap:6px; }
-.ds-brand-link { display:flex; align-items:center; justify-content:center; gap:10px; text-decoration:none !important; }
-.ds-brand-link img { width:44px; height:44px; border-radius:11px; filter:drop-shadow(0 4px 10px rgba(45,212,191,0.30)); }
-.ds-brand-link .ds-nav-name { font-size:1.25rem; }
+.ds-brand-link { display:flex; align-items:center; justify-content:center; gap:11px; text-decoration:none !important; margin-bottom:6px; }
+.ds-brand-link img { width:42px; height:42px; border-radius:12px; filter:drop-shadow(0 4px 10px rgba(45,212,191,0.30)); }
+.ds-brand-link .ds-nav-name { font-size:1.35rem; }
 .ds-crumb { font-size:0.76rem; font-weight:700; color:var(--muted); text-transform:uppercase; letter-spacing:0.7px; }
 .st-key-ds-menu { align-items:flex-end !important; }
 .st-key-ds-menu [data-testid="stElementContainer"] { width:auto !important; }
@@ -187,7 +191,10 @@ header[data-testid="stHeader"] [data-testid="stToolbar"] { pointer-events:auto; 
 [data-testid="stPopover"] button { border-radius:11px !important; border:1px solid var(--line) !important; background:#fff !important;
     color:var(--body) !important; font-weight:600 !important; box-shadow:var(--shadow) !important; white-space:nowrap; }
 [data-testid="stPopover"] button:hover { border-color:var(--teal) !important; color:var(--teal-deep) !important; }
-[data-testid="stPopover"] button::before { content:"☰"; margin-right:8px; font-size:1.05rem; }
+[data-testid="stPopover"] button::before { content:"⚙️"; }
+/* Settings gear is icon-only (label kept for a11y but hidden) to save tab space */
+[data-testid="stPopover"] button [data-testid="stMarkdownContainer"], [data-testid="stPopover"] button p { display:none; }
+[data-testid="stPopover"] button { padding:8px 11px !important; }
 
 /* Headings */
 .ds-page-title { font-size:1.55rem; font-weight:800; letter-spacing:-0.6px; color:var(--ink); margin:0 0 2px 0; }
@@ -274,6 +281,8 @@ header[data-testid="stHeader"] [data-testid="stToolbar"] { pointer-events:auto; 
 [data-testid="stAudioInputActionButton"][aria-label*="Record"]::after { content:"Start recording"; font-weight:700; font-size:0.95rem; }
 [data-testid="stAudioInputActionButton"][aria-label*="Stop"]::after { content:"Stop"; font-weight:700; font-size:0.95rem; }
 [data-testid="stAudioInputActionButton"]:hover { filter:brightness(1.06); transform:translateY(-1px); color:#fff !important; }
+/* Save/Discard row: centered under the recorder, matching its width */
+.st-key-ds-recbtns { max-width:440px; margin:8px auto 0 auto; }
 
 /* Metrics */
 [data-testid="stMetric"] { background:#fff; border:1px solid var(--line); border-radius:16px; padding:16px 18px; box-shadow:var(--shadow); }
@@ -291,9 +300,10 @@ header[data-testid="stHeader"] [data-testid="stToolbar"] { pointer-events:auto; 
     .block-container { padding-left:1rem; padding-right:1rem; padding-top:1.2rem; }
     .ds-page-title { font-size:1.3rem; }
     .ds-card, .ds-result { padding:18px; }
-    .st-key-ds-topbar [data-testid="stColumn"] { flex:1 1 0 !important; width:auto !important; min-width:0 !important; }
-    .ds-crumb { display:none; }
-    .ds-brand-link .ds-nav-name { font-size:1.1rem; }
+    .ds-brand-link .ds-nav-name { font-size:1.2rem; }
+    .st-key-ds-topnav [data-testid="stHorizontalBlock"] { justify-content:flex-start; }
+    [data-testid="stPageLink-NavLink"] [data-testid="stMarkdownContainer"] { display:none; }
+    [data-testid="stPageLink"] a { padding:9px !important; justify-content:center; }
     [data-testid="stPopover"] button [data-testid="stMarkdownContainer"], [data-testid="stPopover"] button p { display:none; }
     [data-testid="stPopover"] button { padding:9px 12px !important; } [data-testid="stPopover"] button::before { margin-right:0; }
     .st-key-ds-fab [data-testid="stMarkdownContainer"] { display:none; }
@@ -364,7 +374,15 @@ def _okf_context() -> str:
     lines = []
     for c in concepts:
         m = c["metadata"]
-        status = "done" if m.get("done") else m.get("review_status", "Resolved")
+        # Completion status is driven ONLY by `done`. `review_status` is a separate
+        # human-in-the-loop concept ("Pending" = needs a detail from the user;
+        # "Resolved" = no detail needed) and must NOT be reported as task completion.
+        if db_helper._as_bool(m.get("done")):
+            status = "completed"
+        elif str(m.get("review_status", "")).strip().lower() == "pending":
+            status = "not done (awaiting a detail from the user)"
+        else:
+            status = "not done (active)"
         due = (str(m.get("due_date", "")) + " " + str(m.get("due_time", ""))).strip()
         meta = f"[{m.get('category','')}] {m.get('title','')}"
         if due:
@@ -461,7 +479,10 @@ def ask_okf(api_key: str, question: str, history: list) -> str:
         "complete_task, reschedule_task, add_task, remove_task. Target actions using the `id` shown "
         "for each item in the bundle. Resolve relative dates ('tomorrow', 'Friday') against today. "
         "Only act when the user clearly asks to; otherwise just answer. After acting, confirm briefly "
-        "what you did. Answer strictly from the bundle; if something isn't noted, say so. Be concise."
+        "what you did. Answer strictly from the bundle; if something isn't noted, say so. Be concise.\n"
+        "STATUS RULES: each item's `status` is the source of truth. 'completed' = the task is done; "
+        "'not done (active)' and 'not done (awaiting a detail from the user)' both mean it is NOT done "
+        "and is still pending. Never describe a 'not done' item as done, resolved, or finished."
     )
     config = types.GenerateContentConfig(system_instruction=sys, tools=ASSISTANT_TOOLS)
     contents = [f"KNOWLEDGE BUNDLE (OKF):\n{ctx}\n\nConversation so far:\n{convo}\n\nUser message: {question}"]
@@ -616,11 +637,12 @@ def render_capture():
         # The recorder itself handles Tap-to-record → Stop; Save/Discard appear after.
         audio_file = st.audio_input("Tap to record your note", key=f"rec_{st.session_state.rec_nonce}")
         if audio_file is not None:
-            cs, cd = st.columns([3, 1])
-            with cs:
-                save_clicked = st.button("💾 Save", type="primary", width="stretch", key="ds-save")
-            with cd:
-                discard_clicked = st.button("Discard", type="secondary", width="stretch", key="ds-discard")
+            with st.container(key="ds-recbtns"):   # centered under the recorder, equal widths
+                cs, cd = st.columns(2)
+                with cs:
+                    save_clicked = st.button("💾 Save", type="primary", width="stretch", key="ds-save")
+                with cd:
+                    discard_clicked = st.button("Discard", type="secondary", width="stretch", key="ds-discard")
             if discard_clicked:
                 st.session_state.rec_nonce += 1        # reset the recorder
                 st.session_state.last_captured_task = None
@@ -1164,26 +1186,46 @@ private_page = st.Page(render_private, title="Private", icon=":material/lock:", 
 nav = st.navigation([overview_page, capture_page, agenda_page, inbox_page, ask_page, vault_page, private_page], position="hidden")
 current_title = getattr(nav, "title", "") or "Overview"
 
-with st.container(key="ds-topbar"):
-    left, center, right = st.columns([1, 1.4, 1], vertical_alignment="center")
-    with left:
-        st.markdown(f'<span class="ds-crumb">{current_title}</span>', unsafe_allow_html=True)
-    with center:
-        logo_img = f'<img src="{LOGO_URI}" alt="DaySync AI" />' if LOGO_URI else ""
-        # Clicking the brand goes home (root = Overview)
-        st.markdown(f'<a href="/" target="_self" class="ds-brand-link">{logo_img}'
-                    f'<span class="ds-nav-name">DaySync AI</span></a>', unsafe_allow_html=True)
-    with right:
+# Clear per-page transient state when the user switches tabs, so stale banners/cards
+# (e.g. the Capture "Filed" result) don't linger after you navigate away and back.
+_cur_path = getattr(nav, "url_path", "") or "overview"
+if st.session_state.get("_prev_page") != _cur_path:
+    st.session_state.last_captured_task = None
+    st.session_state.pop("private_saved", None)
+    st.session_state.pop("_pending_q", None)
+    st.session_state.link_result = None
+    st.session_state.confirm_demo = False
+    # Re-lock private notes whenever you leave the Private page, so confidential
+    # items are re-masked on the Agenda and everywhere else.
+    if _cur_path != "private":
+        st.session_state.private_unlocked = False
+    st.session_state._prev_page = _cur_path
+
+# Row 1 — centered brand (click goes home)
+logo_img = f'<img src="{LOGO_URI}" alt="DaySync AI" />' if LOGO_URI else ""
+st.markdown(f'<a href="/" target="_self" class="ds-brand-link">{logo_img}'
+            f'<span class="ds-nav-name">DaySync AI</span></a>', unsafe_allow_html=True)
+
+# Row 2 — scrollable tab bar + a settings gear
+with st.container(key="ds-topnav"):
+    tc = st.columns([1, 1, 1, 1, 1, 1, 1, 0.7], vertical_alignment="center")
+    with tc[0]:
+        st.page_link(overview_page, label="Overview", icon=":material/dashboard:")
+    with tc[1]:
+        st.page_link(capture_page, label="Capture", icon=":material/mic:")
+    with tc[2]:
+        st.page_link(agenda_page, label="Agenda", icon=":material/checklist:")
+    with tc[3]:
+        st.page_link(inbox_page, label=f"Inbox ({inbox_count})" if inbox_count else "Inbox", icon=":material/inbox:")
+    with tc[4]:
+        st.page_link(ask_page, label="Ask", icon=":material/forum:")
+    with tc[5]:
+        st.page_link(vault_page, label="Vault", icon=":material/hub:")
+    with tc[6]:
+        st.page_link(private_page, label="Private", icon=":material/lock:")
+    with tc[7]:
         with st.container(key="ds-menu"):
-            with st.popover("Menu", use_container_width=False):
-                st.page_link(overview_page, label="Overview", icon=":material/dashboard:")
-                st.page_link(capture_page, label="Capture", icon=":material/mic:")
-                st.page_link(agenda_page, label="Agenda", icon=":material/checklist:")
-                st.page_link(inbox_page, label=f"Inbox ({inbox_count})" if inbox_count else "Inbox", icon=":material/inbox:")
-                st.page_link(ask_page, label="Ask", icon=":material/forum:")
-                st.page_link(vault_page, label="Vault", icon=":material/hub:")
-                st.page_link(private_page, label="Private", icon=":material/lock:")
-                st.markdown("---")
+            with st.popover("Settings", use_container_width=False):
                 api_key_env = os.environ.get("GEMINI_API_KEY", "")
                 api_key_input = st.text_input("Gemini API Key", value=st.session_state.get("api_key", api_key_env),
                                               type="password", help="Falls back to the GEMINI_API_KEY environment variable if left blank.")

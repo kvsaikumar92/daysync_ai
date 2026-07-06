@@ -194,6 +194,13 @@ def save_and_categorize_task(
         review_reason: If needs_review, the specific missing detail to ask the user for.
     """
     import streamlit as st
+    # Idempotency: one capture = one note. The model may emit this tool call more
+    # than once in a single turn, and the model-fallback can re-run a request whose
+    # tool already executed. _handle_capture clears last_captured_task before each
+    # capture, so a value already present here means this note was just saved.
+    prior = st.session_state.get("last_captured_task")
+    if prior:
+        return f"Task already saved with ID: {prior['id']}"
     text_source = st.session_state.get("current_text_source", "text")
     audio_path = st.session_state.get("current_audio_path", "")
 
@@ -526,22 +533,53 @@ def _sync_to_okf_unsafe(task: dict):
 
 
 def load_demo_data() -> bool:
-    """Replace the live vault with the curated sample bundle from examples/.
-    Copies examples/agent_vault.csv → the CSV and examples/okf-bundle/*.md → knowledge/."""
-    src_csv = os.path.join(EXAMPLES_DIR, "agent_vault.csv")
-    src_bundle = os.path.join(EXAMPLES_DIR, "okf-bundle")
-    if not os.path.exists(src_csv) or not os.path.isdir(src_bundle):
-        return False
+    """Populate the live vault with a fresh curated sample, dated RELATIVE to today so the
+    Overview/Agenda always show a realistic overdue/today/tomorrow spread (never all-past)."""
+    from datetime import timedelta
     initialize_db()
+    # wipe current vault + bundle
     with db_lock:
-        shutil.copyfile(src_csv, CSV_FILE)
+        with open(CSV_FILE, mode="w", newline="", encoding="utf-8") as f:
+            csv.writer(f).writerow(HEADERS)
         for f in os.listdir(KNOWLEDGE_DIR):
             if f.endswith(".md"):
                 os.remove(os.path.join(KNOWLEDGE_DIR, f))
-        for f in os.listdir(src_bundle):
-            if f.endswith(".md"):
-                shutil.copyfile(os.path.join(src_bundle, f), os.path.join(KNOWLEDGE_DIR, f))
-        _migrate_headers_unsafe()
+
+    today = date.today()
+
+    def d(offset):
+        return (today + timedelta(days=offset)).isoformat()
+
+    def mk(**kw):
+        base = {"text_source": "text", "needs_review": False, "review_reason": "", "due_date": "",
+                "due_time": "", "amount": "", "related": "", "confidential": False}
+        base["transcript"] = kw.pop("transcript", kw["summary"])
+        base.update(kw)
+        return save_task(base)["id"]  # save_task re-acquires the lock itself
+
+    meds = mk(category="Todo", summary="Buy medicines",
+              transcript="Buy medicines tomorrow morning", due_date=d(1), due_time="08:00")
+    walk = mk(category="General Note", summary="Doctor advised a 30-minute walk daily",
+              transcript="Doctor said I should walk 30 minutes every day")
+    tatkal = mk(category="Reminder", summary="Book tatkal ticket for the Chennai trip",
+                transcript="Reminder to book the tatkal ticket for Chennai at 9:50 AM", due_date=d(1), due_time="09:50")
+    pack = mk(category="Todo", summary="Pack bags for the Chennai trip",
+              transcript="Pack bags for the Chennai trip", due_date=d(2), due_time="18:00")
+    groc = mk(category="Todo", summary="Buy groceries",
+              transcript="Buy groceries today", due_date=d(0), due_time="17:00")
+    grocexp = mk(category="Expense", summary="Bought groceries",
+                 transcript="Spent 2400 rupees on groceries", amount="2400")
+    mk(category="Expense", summary="Pay the electricity bill",
+       transcript="Pay the electricity bill of 1500 rupees", amount="1500")
+    mk(category="Todo", summary="Submit the expense report",
+       transcript="Submit the expense report", due_date=d(-1), due_time="10:00")  # overdue
+    mk(category="Todo", summary="Pay the bill", transcript="remember to pay the bill",
+       needs_review=True, review_reason="Which bill? No amount or due date was specified.")
+
+    mark_done(meds, True)
+    set_related_links({meds: [walk], walk: [meds],
+                       tatkal: [pack], pack: [tatkal],
+                       groc: [grocexp], grocexp: [groc]})
     return True
 
 
