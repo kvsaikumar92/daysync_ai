@@ -1,0 +1,10 @@
+id,timestamp,text_source,transcript,category,summary,due_date,due_time,amount,needs_review,review_reason,review_status,done,related,confidential,audio_path
+cf7da6af-67ef-4947-934d-6527af7e31e2,2026-07-06T21:34:22,text,Buy medicines tomorrow morning,Todo,Buy medicines,2026-07-06,08:00,,False,,Resolved,True,635c7f0d-2aad-4077-8682-0a712df5412b,False,
+635c7f0d-2aad-4077-8682-0a712df5412b,2026-07-06T21:34:22,text,Doctor said I should walk for 30 minutes every day,General Note,Doctor advised a 30-minute walk daily,,,,False,,Resolved,False,cf7da6af-67ef-4947-934d-6527af7e31e2,False,
+f5cb6dbd-302c-475e-81ed-45e56d03d987,2026-07-06T21:34:22,text,Reminder to book the tatkal ticket for Chennai at 9:50 AM,Reminder,Book tatkal ticket for the Chennai trip,2026-07-06,09:50,,False,,Resolved,False,f6d5586d-2616-4bb5-8897-392380defb16,False,
+f6d5586d-2616-4bb5-8897-392380defb16,2026-07-06T21:34:22,text,Pack bags for the Chennai trip,Todo,Pack bags for the Chennai trip,2026-07-06,18:00,,False,,Resolved,False,f5cb6dbd-302c-475e-81ed-45e56d03d987,False,
+fd79a7e9-8db3-451a-b855-c7c4acfb4257,2026-07-06T21:34:22,text,Buy groceries today,Todo,Buy groceries,2026-07-05,17:00,,False,,Resolved,False,3757ff96-6b4c-4bae-9535-f54dce11768d,False,
+3757ff96-6b4c-4bae-9535-f54dce11768d,2026-07-06T21:34:22,text,Spent 2400 rupees on groceries,Expense,Bought groceries,,,2400,False,,Resolved,False,fd79a7e9-8db3-451a-b855-c7c4acfb4257,False,
+80f3c46d-c168-426e-b4c2-7f27c4e6dba4,2026-07-06T21:34:23,text,Pay the electricity bill of 1500 rupees before Friday,Expense,Pay the electricity bill,,,1500,False,,Resolved,False,,False,
+8d1009c8-7083-4178-871a-8154bbb12b62,2026-07-06T21:34:23,text,Submit the expense report,Todo,Submit the expense report,2026-07-04,10:00,,False,,Resolved,False,,False,
+91edce15-252a-4812-8b08-bcfc2224fa99,2026-07-06T21:34:23,text,remember to pay the bill,Todo,Pay the bill,,,,True,Which bill? No amount or due date was specified.,Pending,False,,False,

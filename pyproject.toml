@@ -1,0 +1,15 @@
+[project]
+name = "daysync-ai"
+version = "0.1.0"
+description = "A highly polished Streamlit web application called DaySync AI for the Kaggle Capstone Project"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "streamlit>=1.39.0",
+    "google-genai>=0.1.0",
+    "pandas",
+    "python-dotenv",
+    "pyyaml",
+    "altair",
+    "watchdog"
+]

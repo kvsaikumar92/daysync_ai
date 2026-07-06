@@ -1,0 +1,10 @@
+# DaySync AI — brand theme (derived from the logo's mint→sky-blue gradient).
+# Forcing a light base keeps widgets consistent regardless of the viewer's OS
+# dark-mode setting.
+[theme]
+base = "light"
+primaryColor = "#14B8A6"
+backgroundColor = "#F6F9FC"
+secondaryBackgroundColor = "#FFFFFF"
+textColor = "#0F172A"
+font = "sans serif"
